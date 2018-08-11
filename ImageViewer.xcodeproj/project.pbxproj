@@ -13,6 +13,14 @@
 		FC34F8C5211F302900CAA85A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC34F8C3211F302900CAA85A /* Main.storyboard */; };
 		FC34F8C7211F302A00CAA85A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC34F8C6211F302A00CAA85A /* Assets.xcassets */; };
 		FC34F8CA211F302A00CAA85A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC34F8C8211F302A00CAA85A /* LaunchScreen.storyboard */; };
+		FC34F8D7211F329900CAA85A /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC34F8D4211F329900CAA85A /* APIKeys.swift */; };
+		FC34F8D8211F329900CAA85A /* NetworkClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC34F8D5211F329900CAA85A /* NetworkClass.swift */; };
+		FC34F8D9211F329900CAA85A /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC34F8D6211F329900CAA85A /* Reachability.swift */; };
+		FC34F8DF211F558C00CAA85A /* NSObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC34F8DE211F558C00CAA85A /* NSObjectExtension.swift */; };
+		FC34F8E5211F5A7800CAA85A /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC34F8E3211F5A7800CAA85A /* PhotoCollectionViewCell.swift */; };
+		FC34F8E6211F5A7800CAA85A /* PhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC34F8E4211F5A7800CAA85A /* PhotoCollectionViewCell.xib */; };
+		FC34F8EA211F5B2800CAA85A /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC34F8E9211F5B2800CAA85A /* Photo.swift */; };
+		FCED97FE211F5D0400C42549 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCED97FD211F5D0400C42549 /* Constant.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +34,14 @@
 		FC34F8C6211F302A00CAA85A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FC34F8C9211F302A00CAA85A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FC34F8CB211F302A00CAA85A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FC34F8D4211F329900CAA85A /* APIKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
+		FC34F8D5211F329900CAA85A /* NetworkClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkClass.swift; sourceTree = "<group>"; };
+		FC34F8D6211F329900CAA85A /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		FC34F8DE211F558C00CAA85A /* NSObjectExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObjectExtension.swift; sourceTree = "<group>"; };
+		FC34F8E3211F5A7800CAA85A /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		FC34F8E4211F5A7800CAA85A /* PhotoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoCollectionViewCell.xib; sourceTree = "<group>"; };
+		FC34F8E9211F5B2800CAA85A /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		FCED97FD211F5D0400C42549 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,14 +94,118 @@
 		FC34F8BE211F302900CAA85A /* ImageViewer */ = {
 			isa = PBXGroup;
 			children = (
-				FC34F8BF211F302900CAA85A /* AppDelegate.swift */,
-				FC34F8C1211F302900CAA85A /* ViewController.swift */,
-				FC34F8C3211F302900CAA85A /* Main.storyboard */,
+				FC34F8E7211F5B0E00CAA85A /* Models */,
+				FC34F8D1211F326800CAA85A /* AppDelegate */,
+				FC34F8D2211F328000CAA85A /* Shared */,
+				FC34F8DA211F4F9700CAA85A /* Storyboard */,
+				FC34F8DB211F4FCF00CAA85A /* Controllers */,
 				FC34F8C6211F302A00CAA85A /* Assets.xcassets */,
-				FC34F8C8211F302A00CAA85A /* LaunchScreen.storyboard */,
 				FC34F8CB211F302A00CAA85A /* Info.plist */,
 			);
 			path = ImageViewer;
+			sourceTree = "<group>";
+		};
+		FC34F8D1211F326800CAA85A /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				FC34F8BF211F302900CAA85A /* AppDelegate.swift */,
+			);
+			path = AppDelegate;
+			sourceTree = "<group>";
+		};
+		FC34F8D2211F328000CAA85A /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				FCED97FC211F5CF200C42549 /* Constants */,
+				FC34F8DC211F556700CAA85A /* Extension */,
+				FC34F8D3211F329900CAA85A /* Network */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		FC34F8D3211F329900CAA85A /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				FC34F8D4211F329900CAA85A /* APIKeys.swift */,
+				FC34F8D5211F329900CAA85A /* NetworkClass.swift */,
+				FC34F8D6211F329900CAA85A /* Reachability.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		FC34F8DA211F4F9700CAA85A /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				FC34F8C8211F302A00CAA85A /* LaunchScreen.storyboard */,
+				FC34F8C3211F302900CAA85A /* Main.storyboard */,
+			);
+			path = Storyboard;
+			sourceTree = "<group>";
+		};
+		FC34F8DB211F4FCF00CAA85A /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				FC34F8E0211F595C00CAA85A /* Cell */,
+				FC34F8C1211F302900CAA85A /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		FC34F8DC211F556700CAA85A /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				FC34F8DD211F557200CAA85A /* NSObjectExtension */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		FC34F8DD211F557200CAA85A /* NSObjectExtension */ = {
+			isa = PBXGroup;
+			children = (
+				FC34F8DE211F558C00CAA85A /* NSObjectExtension.swift */,
+			);
+			path = NSObjectExtension;
+			sourceTree = "<group>";
+		};
+		FC34F8E0211F595C00CAA85A /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				FC34F8E2211F597200CAA85A /* PhotoCell */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		FC34F8E2211F597200CAA85A /* PhotoCell */ = {
+			isa = PBXGroup;
+			children = (
+				FC34F8E3211F5A7800CAA85A /* PhotoCollectionViewCell.swift */,
+				FC34F8E4211F5A7800CAA85A /* PhotoCollectionViewCell.xib */,
+			);
+			path = PhotoCell;
+			sourceTree = "<group>";
+		};
+		FC34F8E7211F5B0E00CAA85A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FC34F8E8211F5B1600CAA85A /* Photo */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		FC34F8E8211F5B1600CAA85A /* Photo */ = {
+			isa = PBXGroup;
+			children = (
+				FC34F8E9211F5B2800CAA85A /* Photo.swift */,
+			);
+			path = Photo;
+			sourceTree = "<group>";
+		};
+		FCED97FC211F5CF200C42549 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				FCED97FD211F5D0400C42549 /* Constant.swift */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -149,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC34F8CA211F302A00CAA85A /* LaunchScreen.storyboard in Resources */,
+				FC34F8E6211F5A7800CAA85A /* PhotoCollectionViewCell.xib in Resources */,
 				FC34F8C7211F302A00CAA85A /* Assets.xcassets in Resources */,
 				FC34F8C5211F302900CAA85A /* Main.storyboard in Resources */,
 			);
@@ -200,7 +321,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC34F8EA211F5B2800CAA85A /* Photo.swift in Sources */,
+				FC34F8D7211F329900CAA85A /* APIKeys.swift in Sources */,
+				FCED97FE211F5D0400C42549 /* Constant.swift in Sources */,
+				FC34F8DF211F558C00CAA85A /* NSObjectExtension.swift in Sources */,
+				FC34F8D8211F329900CAA85A /* NetworkClass.swift in Sources */,
 				FC34F8C2211F302900CAA85A /* ViewController.swift in Sources */,
+				FC34F8E5211F5A7800CAA85A /* PhotoCollectionViewCell.swift in Sources */,
+				FC34F8D9211F329900CAA85A /* Reachability.swift in Sources */,
 				FC34F8C0211F302900CAA85A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -348,7 +476,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ImageViewer/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.test.ImageViewer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -363,7 +494,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ImageViewer/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.test.ImageViewer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
