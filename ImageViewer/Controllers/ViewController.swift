@@ -61,6 +61,8 @@ extension ViewController {
         photoCollectionView.register(UINib(nibName: PhotoCollectionViewCell.className(), bundle: nil), forCellWithReuseIdentifier: PhotoCollectionViewCell.className())
         collectionViewColumns = 2
         
+        ImageManager.shared.fetchImages(text: "Akshay")
+        
     }
     
     func layoutCollectionView() {
@@ -94,11 +96,11 @@ extension ViewController {
             
         }
         let actionTwo = UIAlertAction.init(title: Constant.three, style: .default) {[weak self] (alertAction) in
-            self?.collectionViewColumns = 2
+            self?.collectionViewColumns = 3
             
         }
         let actionThree = UIAlertAction.init(title: Constant.four, style: .default) {[weak self] (alertAction) in
-            self?.collectionViewColumns = 2
+            self?.collectionViewColumns = 4
         }
         
         alertController.addAction(actionOne)
