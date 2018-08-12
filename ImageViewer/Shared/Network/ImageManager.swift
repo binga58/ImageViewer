@@ -97,7 +97,7 @@ extension ImageManager {
     
     func setLowPriority(url: URL) {
         if let task = requestQueue[url] {
-            task.priority = URLSessionTask.defaultPriority
+            task.priority = URLSessionTask.lowPriority
         }
     }
     

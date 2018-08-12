@@ -75,8 +75,20 @@ extension ViewController {
     func layoutCollectionView() {
         
         DispatchQueue.main.async {[weak self] in
-            self?.photoCollectionView.reloadData()
-
+            
+            guard let strongSelf = self,
+                let flowlayout = strongSelf.photoCollectionView.collectionViewLayout as? UICollectionViewFlowLayout else {
+                return
+            }
+            
+            let sideLength = strongSelf.photoCollectionView.frame.size.width / CGFloat((strongSelf.collectionViewColumns ?? 2))
+            
+            strongSelf.photoCollectionView.performBatchUpdates({
+                flowlayout.itemSize = CGSize(width: sideLength, height: sideLength)
+            }, completion: { (_) in
+                
+            })
+            
         }
         
     }
@@ -96,7 +108,7 @@ extension ViewController {
         }
     }
     
-    func updateCollectionViewData() {
+    func updateCollectionViewData(isFreshSetup: Bool) {
         DispatchQueue.main.async {[weak self] in
             guard let strongSelf = self else {
                 return
@@ -183,25 +195,18 @@ extension ViewController: UICollectionViewDataSource {
 extension ViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        let photo = photoList[indexPath.row]
-//        if let url = URL(string: photo.imageURL) {
-//            ImageManager.shared.setLowPriority(url: url)
-//        }
-        
-        print("=-=-=-=--\n\(indexPath.row)\n-=-=-=-=-")
-        
+        if indexPath.row > photoList.count {
+            return
+        }
+        let photo = photoList[indexPath.row]
+        if let url = URL(string: photo.imageURL) {
+            ImageManager.shared.setLowPriority(url: url)
+        }
     }
     
 }
 
 extension ViewController: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let sideLength = collectionView.frame.size.width / CGFloat((collectionViewColumns ?? 2))
-        let size = CGSize(width: sideLength, height: sideLength)
-        return size
-        
-    }
     
 }
 
@@ -248,14 +253,23 @@ extension ViewController {
                 return
             }
             strongSelf.viewState = .loaded
+            var isFreshSetup = false
             if currentPage == 1 {
                 strongSelf.photoList.removeAll()
+                isFreshSetup = true
             }
             
             if let photos = photos {
                 strongSelf.photoList.append(contentsOf: photos)
             }
-            strongSelf.updateCollectionViewData()
+            if isFreshSetup {
+                DispatchQueue.main.async {
+                    strongSelf.photoCollectionView.contentOffset = CGPoint.zero
+                    strongSelf.photoCollectionView.reloadData()
+                }
+            } else {
+                strongSelf.updateCollectionViewData(isFreshSetup: isFreshSetup)
+            }
         }
         
     }
