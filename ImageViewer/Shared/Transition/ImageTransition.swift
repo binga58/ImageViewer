@@ -111,12 +111,12 @@ extension ImageTransition: UIViewControllerAnimatedTransitioning {
         //Setting colours
         backgroundImageView.isHidden = true
         foregroundImageView.isHidden = true
-        let foregroundViewBackgroundColor = foregroundVC.view.backgroundColor!
+        let foregroundViewBackgroundColor = foregroundVC.view.backgroundColor
         foregroundVC.view.backgroundColor = UIColor.clear
         containerView.backgroundColor = UIColor.white
         
-        containerView.addSubview((backgroundVC.view)!)
-        containerView.addSubview((foregroundVC.view)!)
+        containerView.addSubview((backgroundVC.view))
+        containerView.addSubview((foregroundVC.view))
         containerView.addSubview(transitionImageView)
         
         
