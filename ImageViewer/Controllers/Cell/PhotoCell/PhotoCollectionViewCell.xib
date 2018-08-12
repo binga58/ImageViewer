@@ -21,16 +21,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="185" height="153"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1PS-Mc-Opa">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1PS-Mc-Opa">
                         <rect key="frame" x="18.5" y="2.5" width="148" height="148"/>
-                        <color key="backgroundColor" red="0.2784313725" green="0.6588235294" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="1PS-Mc-Opa" secondAttribute="height" id="fU8-Yb-o2p"/>
                         </constraints>
                     </imageView>
                 </subviews>
             </view>
-            <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="1PS-Mc-Opa" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="00j-8x-Gav"/>
                 <constraint firstItem="1PS-Mc-Opa" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="520-pj-CQv"/>
@@ -38,6 +36,9 @@
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="185" height="153"/>
+            <connections>
+                <outlet property="displayImageView" destination="1PS-Mc-Opa" id="dVj-8l-awJ"/>
+            </connections>
             <point key="canvasLocation" x="40.5" y="40.5"/>
         </collectionViewCell>
     </objects>

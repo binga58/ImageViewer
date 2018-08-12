@@ -16,6 +16,7 @@ enum ViewState {
 class ViewController: UIViewController {
     
     @IBOutlet weak var photoCollectionView: UICollectionView!
+    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     
     var currentPage = 0
     var searchText = ""
@@ -65,23 +66,61 @@ extension ViewController {
         
         //Collection view setup
         photoCollectionView.register(UINib(nibName: PhotoCollectionViewCell.className(), bundle: nil), forCellWithReuseIdentifier: PhotoCollectionViewCell.className())
-        collectionViewColumns = 2
+        collectionViewColumns = 4
+        
+        self.viewState = .loaded
         
     }
     
     func layoutCollectionView() {
         
-//        DispatchQueue.main.async {[weak self] in
-//            guard let strongSelf = self else {
-//                return
-//            }
-//
-//        }
+        DispatchQueue.main.async {[weak self] in
+            self?.photoCollectionView.reloadData()
+
+        }
         
     }
     
     func viewStateChanged() {
-        
+        DispatchQueue.main.async {[weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            switch strongSelf.viewState {
+            case .loaded:
+                strongSelf.activityIndicatorView.isHidden = true
+            case .loading:
+                strongSelf.activityIndicatorView.isHidden = false
+                strongSelf.activityIndicatorView.startAnimating()
+            }
+        }
+    }
+    
+    func updateCollectionViewData() {
+        DispatchQueue.main.async {[weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.photoCollectionView.performBatchUpdates({
+                
+                let currentRows = strongSelf.photoCollectionView.numberOfItems(inSection: 0)
+                
+                var itemCount = strongSelf.photoList.count - 1
+                
+                var tempArray: Array<IndexPath> = []
+                
+                while itemCount >= currentRows {
+                    
+                    tempArray.append(IndexPath(row: itemCount, section: 0))
+                    itemCount -= 1
+                }
+                
+                strongSelf.photoCollectionView.insertItems(at: tempArray)
+                
+            }, completion: { (_) in
+                
+            })
+        }
     }
     
 }
@@ -127,6 +166,8 @@ extension ViewController: UICollectionViewDataSource {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.className(), for: indexPath) as? PhotoCollectionViewCell
         
+        cell?.configureCell(photo: photoList[indexPath.row])
+        
         if indexPath.row == photoList.count - 1 {
             self.currentPage += 1
             fetchImages()
@@ -141,12 +182,22 @@ extension ViewController: UICollectionViewDataSource {
 //MARK:- UICollectionView delegate
 extension ViewController: UICollectionViewDelegate {
     
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//        let photo = photoList[indexPath.row]
+//        if let url = URL(string: photo.imageURL) {
+//            ImageManager.shared.setLowPriority(url: url)
+//        }
+        
+        print("=-=-=-=--\n\(indexPath.row)\n-=-=-=-=-")
+        
+    }
+    
 }
 
 extension ViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let sideLength = collectionView.frame.size.width / 2
+        let sideLength = collectionView.frame.size.width / CGFloat((collectionViewColumns ?? 2))
         let size = CGSize(width: sideLength, height: sideLength)
         return size
         
@@ -173,15 +224,12 @@ extension ViewController: UISearchBarDelegate {
         searchBar.text = nil
     }
     
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchText.count == 0 {
-            currentPage = 1
-            self.searchText = ""
-        }
-    }
-    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
         if let searchText = searchBar.text {
+            if searchText != self.searchText{
+                currentPage = 1
+            }
             self.searchText = searchText
             fetchImages()
         }
@@ -194,10 +242,12 @@ extension ViewController {
     
     func fetchImages() {
         
+        self.viewState = .loading
         ImageManager.shared.fetchImages(text: searchText, currentPage: currentPage) {[weak self] (photos, totalPage, currentPage, searchText) in
             guard let strongSelf = self else{
                 return
             }
+            strongSelf.viewState = .loaded
             if currentPage == 1 {
                 strongSelf.photoList.removeAll()
             }
@@ -205,11 +255,7 @@ extension ViewController {
             if let photos = photos {
                 strongSelf.photoList.append(contentsOf: photos)
             }
-            
-            DispatchQueue.main.async {
-                strongSelf.photoCollectionView.reloadData()
-            }
-            
+            strongSelf.updateCollectionViewData()
         }
         
     }

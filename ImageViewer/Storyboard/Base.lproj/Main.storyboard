@@ -35,7 +35,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="6CC-bt-MOd">
-                                <rect key="frame" x="0.0" y="64" width="375" height="566"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="REh-GA-QSO">
                                     <size key="itemSize" width="50" height="50"/>
@@ -66,10 +66,10 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="6CC-bt-MOd" secondAttribute="bottom" id="ASt-Uf-Nuz"/>
                             <constraint firstItem="6CC-bt-MOd" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Hgg-Tf-ygk"/>
                             <constraint firstItem="DwG-lG-oPX" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="UfH-To-8xT"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="DwG-lG-oPX" secondAttribute="bottom" id="V6m-L4-b2L"/>
-                            <constraint firstItem="DwG-lG-oPX" firstAttribute="top" secondItem="6CC-bt-MOd" secondAttribute="bottom" id="fHS-Jd-VAU"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6CC-bt-MOd" secondAttribute="trailing" id="gTT-c5-gGi"/>
                             <constraint firstItem="6CC-bt-MOd" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="jbd-5v-DZr"/>
                         </constraints>
@@ -83,6 +83,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="DwG-lG-oPX" id="sKI-zn-ppa"/>
                         <outlet property="photoCollectionView" destination="6CC-bt-MOd" id="xgR-F1-7wz"/>
                     </connections>
                 </viewController>
