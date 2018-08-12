@@ -14,9 +14,15 @@ struct Constant {
     static let two = "2"
     static let three = "3"
     static let four = "4"
+    static let errorMessage = "Error Occurred"
+    static let ok = "Ok"
     
     struct Storyboard {
         static let main = "Main"
+    }
+    
+    struct ViewController {
+        static let defaultNumberOfColumns = 3
     }
     
 }

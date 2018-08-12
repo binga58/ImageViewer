@@ -28,7 +28,7 @@ class DetailViewController: UIViewController {
         
         self.viewState = .loading
         if let photo = photo {
-            ImageManager.shared.downloadImage(imageURL: photo.highResImage) {[weak self] (imageURL, image) in
+            ImageManager.shared.downloadImage(imageURL: photo.originalImageURL) {[weak self] (imageURL, image) in
                 DispatchQueue.main.async {
                     self?.viewState = .loaded
                     if let image = image {
@@ -75,5 +75,12 @@ extension DetailViewController {
         
     }
     
+}
+
+extension DetailViewController: ZoomImageDelegate {
+    func zoomingImageView(for transition: ImageTransition) -> UIImageView? {
+        return displayImageView
+    }
+   
 }
 

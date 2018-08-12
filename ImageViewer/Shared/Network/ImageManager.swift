@@ -12,7 +12,7 @@ import UIKit
 let flickrKey = "03b3265e6929a47139957d046cd453d5"
 let flickrSecret = "d86c611732d81d2a"
 let flickrBaseURL = "https://api.flickr.com/services/rest/"
-let flickrPerPageImages = "100"
+let flickrPerPageImages = "30"
 let imageCache = "ImageCache"
 let mb = 1024 * 1024
 

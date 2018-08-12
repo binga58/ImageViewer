@@ -20,6 +20,7 @@ class ViewController: UIViewController {
     
     var currentPage = 0
     var searchText = ""
+    var selectedIndexPath: IndexPath?
     var photoList: Array<Photo> = []
     
     var collectionViewColumns: Int? = 2 {
@@ -35,11 +36,7 @@ class ViewController: UIViewController {
         return searchBar
     }()
     
-    var viewState: ViewState = .loading{
-        didSet{
-            viewStateChanged()
-        }
-    }
+    var viewState: ViewState = .loaded
     
     
     
@@ -66,16 +63,14 @@ extension ViewController {
         
         //Collection view setup
         photoCollectionView.register(UINib(nibName: PhotoCollectionViewCell.className(), bundle: nil), forCellWithReuseIdentifier: PhotoCollectionViewCell.className())
-        collectionViewColumns = 4
-        
-        self.viewState = .loaded
+        collectionViewColumns = Constant.ViewController.defaultNumberOfColumns
         
     }
     
     func layoutCollectionView() {
         
         DispatchQueue.main.async {[weak self] in
-            
+            //Layout collection view according to number of columns
             guard let strongSelf = self,
                 let flowlayout = strongSelf.photoCollectionView.collectionViewLayout as? UICollectionViewFlowLayout else {
                 return
@@ -93,22 +88,7 @@ extension ViewController {
         
     }
     
-    func viewStateChanged() {
-        DispatchQueue.main.async {[weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            switch strongSelf.viewState {
-            case .loaded:
-                strongSelf.activityIndicatorView.isHidden = true
-            case .loading:
-                strongSelf.activityIndicatorView.isHidden = false
-                strongSelf.activityIndicatorView.startAnimating()
-            }
-        }
-    }
-    
-    func updateCollectionViewData(isFreshSetup: Bool) {
+    func updateCollectionViewData() {
         DispatchQueue.main.async {[weak self] in
             guard let strongSelf = self else {
                 return
@@ -133,6 +113,17 @@ extension ViewController {
                 
             })
         }
+    }
+    
+    func showError() {
+        
+        let alertController = UIAlertController(title: Constant.errorMessage, message: "", preferredStyle: .alert)
+        
+        let actionOne = UIAlertAction.init(title: Constant.ok, style: .default) {(alertAction) in
+        }
+        
+        alertController.addAction(actionOne)
+        self.present(alertController, animated: true, completion: nil)
     }
     
 }
@@ -180,6 +171,7 @@ extension ViewController: UICollectionViewDataSource {
         
         cell?.configureCell(photo: photoList[indexPath.row])
         
+        //If last cell is called then time for new images 🚀
         if indexPath.row == photoList.count - 1 {
             self.currentPage += 1
             fetchImages()
@@ -195,6 +187,7 @@ extension ViewController: UICollectionViewDataSource {
 extension ViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        //This function calls everytime when we reload collection view for previous cells. So this check was introduced.
         if indexPath.row > photoList.count - 1{
             return
         }
@@ -206,12 +199,25 @@ extension ViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let photo = photoList[indexPath.row]
+        selectedIndexPath = indexPath
         
         let detailViewController = UIStoryboard(name: Constant.Storyboard.main, bundle: nil).instantiateViewController(withIdentifier: DetailViewController.className()) as? DetailViewController ?? DetailViewController()
         
         detailViewController.photo = photo
         
         self.navigationController?.pushViewController(detailViewController, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        let loaderView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: LoaderCollectionReusableView.className(), for: indexPath) as? LoaderCollectionReusableView
+        //activity indicator depends on view state
+        viewState == .loading ? loaderView?.activityIndicatorView.startAnimating() : loaderView?.activityIndicatorView.stopAnimating()
+        return loaderView ?? LoaderCollectionReusableView()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.size.width, height: 44)
     }
     
 }
@@ -258,12 +264,23 @@ extension ViewController {
     func fetchImages() {
         
         self.viewState = .loading
+        
         ImageManager.shared.fetchImages(text: searchText, currentPage: currentPage) {[weak self] (photos, totalPage, currentPage, searchText) in
             guard let strongSelf = self else{
                 return
             }
+            
+            if photos?.count == 0 {
+                DispatchQueue.main.async {
+                    strongSelf.showError()
+                }
+                return
+            }
+            
             strongSelf.viewState = .loaded
             var isFreshSetup = false
+            
+            //New result so clean up previous cells
             if currentPage == 1 {
                 strongSelf.photoList.removeAll()
                 isFreshSetup = true
@@ -273,15 +290,28 @@ extension ViewController {
                 strongSelf.photoList.append(contentsOf: photos)
             }
             if isFreshSetup {
+                //Create new cells
                 DispatchQueue.main.async {
                     strongSelf.photoCollectionView.contentOffset = CGPoint.zero
                     strongSelf.photoCollectionView.reloadData()
                 }
             } else {
-                strongSelf.updateCollectionViewData(isFreshSetup: isFreshSetup)
+                //Append new cells
+                strongSelf.updateCollectionViewData()
             }
         }
         
+    }
+    
+}
+
+//MARK:- Transitionning delegate
+extension ViewController: ZoomImageDelegate {
+    func zoomingImageView(for transition: ImageTransition) -> UIImageView? {
+        if let indexPath = selectedIndexPath, let cell = self.photoCollectionView.cellForItem(at: indexPath) as? PhotoCollectionViewCell {
+            return cell.displayImageView
+        }
+        return nil
     }
     
 }
