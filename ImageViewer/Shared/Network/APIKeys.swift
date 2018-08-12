@@ -9,7 +9,6 @@
 import Foundation
 
 struct APIKey {
-    
     static let method = "method"
     static let flickrPhotoSearch = "flickr.photos.search"
     static let apiKey = "api_key"
@@ -22,5 +21,14 @@ struct APIKey {
     static let page = "page"
     static let pages = "pages"
     static let photo = "photo"
+    static let isfriend = "isfriend"
+    static let farm = "farm"
+    static let id = "id"
+    static let server = "server"
+    static let secret = "secret"
+    static let owner = "owner"
+    static let title = "title"
+    static let ispublic = "ispublic"
+    static let isfamily = "isfamily"
     
 }

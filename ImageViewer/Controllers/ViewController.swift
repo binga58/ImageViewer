@@ -17,6 +17,10 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var photoCollectionView: UICollectionView!
     
+    var currentPage = 0
+    var searchText = ""
+    var photoList: Array<Photo> = []
+    
     var collectionViewColumns: Int? = 2 {
         didSet{
             layoutCollectionView()
@@ -35,6 +39,8 @@ class ViewController: UIViewController {
             viewStateChanged()
         }
     }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,18 +67,16 @@ extension ViewController {
         photoCollectionView.register(UINib(nibName: PhotoCollectionViewCell.className(), bundle: nil), forCellWithReuseIdentifier: PhotoCollectionViewCell.className())
         collectionViewColumns = 2
         
-        ImageManager.shared.fetchImages(text: "Akshay")
-        
     }
     
     func layoutCollectionView() {
         
-        DispatchQueue.main.async {[weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            
-        }
+//        DispatchQueue.main.async {[weak self] in
+//            guard let strongSelf = self else {
+//                return
+//            }
+//
+//        }
         
     }
     
@@ -116,23 +120,37 @@ extension ViewController {
 //MARK:- UICollectionView datasource
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return self.photoList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.className(), for: indexPath) as? PhotoCollectionViewCell
         
+        if indexPath.row == photoList.count - 1 {
+            self.currentPage += 1
+            fetchImages()
+        }
+        
         return cell ?? UICollectionViewCell()
         
     }
-    
-    
     
 }
 
 //MARK:- UICollectionView delegate
 extension ViewController: UICollectionViewDelegate {
+    
+}
+
+extension ViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let sideLength = collectionView.frame.size.width / 2
+        let size = CGSize(width: sideLength, height: sideLength)
+        return size
+        
+    }
     
 }
 
@@ -153,6 +171,47 @@ extension ViewController: UISearchBarDelegate {
         searchBar.resignFirstResponder()
         searchBar.showsCancelButton = false
         searchBar.text = nil
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.count == 0 {
+            currentPage = 1
+            self.searchText = ""
+        }
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        if let searchText = searchBar.text {
+            self.searchText = searchText
+            fetchImages()
+        }
+    }
+    
+}
+
+//MARK:- Image Fetch
+extension ViewController {
+    
+    func fetchImages() {
+        
+        ImageManager.shared.fetchImages(text: searchText, currentPage: currentPage) {[weak self] (photos, totalPage, currentPage, searchText) in
+            guard let strongSelf = self else{
+                return
+            }
+            if currentPage == 1 {
+                strongSelf.photoList.removeAll()
+            }
+            
+            if let photos = photos {
+                strongSelf.photoList.append(contentsOf: photos)
+            }
+            
+            DispatchQueue.main.async {
+                strongSelf.photoCollectionView.reloadData()
+            }
+            
+        }
+        
     }
     
 }

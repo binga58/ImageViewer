@@ -346,8 +346,8 @@ extension NetworkClass{
         var parts: [String] = []
         
         for (name, value) in queryParameters {
-            let escapedName = name//.urlEncoded()
-            let escapedValue = value//.urlEncoded()
+            let escapedName = name.urlEncoded()
+            let escapedValue = value.urlEncoded()
             let part = "\(escapedName)=\(escapedValue)"
             
             parts.append(part as String)
