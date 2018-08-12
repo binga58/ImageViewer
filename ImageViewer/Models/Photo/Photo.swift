@@ -18,14 +18,16 @@ struct Photo: CustomStringConvertible {
     let secret: String
     var owner: String?
     var title: String?
-    let imageURL: String
+    let thumbImageURL: String
+    let highResImage: String
     
     init(id: String, farm: Int, server: String, secret: String) {
         self.id = id
         self.farm = farm
         self.server = server
         self.secret = secret
-        self.imageURL = "https://farm\(farm).staticflickr.com/\(server)/\(id)_\(secret).jpg"
+        self.thumbImageURL = "https://farm\(farm).staticflickr.com/\(server)/\(id)_\(secret)_q.jpg"
+        self.highResImage = "https://farm\(farm).staticflickr.com/\(server)/\(id)_\(secret)_b.jpg"
     }
     
     public init?(with dict:JSONDictionary) {
@@ -39,7 +41,7 @@ struct Photo: CustomStringConvertible {
     }
     
     var description: String{
-        return self.imageURL
+        return self.thumbImageURL
     }
     
 }

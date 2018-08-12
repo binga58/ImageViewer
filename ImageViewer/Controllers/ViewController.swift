@@ -195,13 +195,23 @@ extension ViewController: UICollectionViewDataSource {
 extension ViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row > photoList.count {
+        if indexPath.row > photoList.count - 1{
             return
         }
         let photo = photoList[indexPath.row]
-        if let url = URL(string: photo.imageURL) {
+        if let url = URL(string: photo.thumbImageURL) {
             ImageManager.shared.setLowPriority(url: url)
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let photo = photoList[indexPath.row]
+        
+        let detailViewController = UIStoryboard(name: Constant.Storyboard.main, bundle: nil).instantiateViewController(withIdentifier: DetailViewController.className()) as? DetailViewController ?? DetailViewController()
+        
+        detailViewController.photo = photo
+        
+        self.navigationController?.pushViewController(detailViewController, animated: true)
     }
     
 }

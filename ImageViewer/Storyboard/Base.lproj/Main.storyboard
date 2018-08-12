@@ -91,5 +91,41 @@
             </objects>
             <point key="canvasLocation" x="32.799999999999997" y="31.934032983508249"/>
         </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="Y8Q-D5-xch">
+            <objects>
+                <viewController storyboardIdentifier="DetailViewController" id="y9v-kl-YEn" customClass="DetailViewController" customModule="ImageViewer" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="yv7-wr-KGg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XyA-ov-uz1">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                            </imageView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="XS4-m8-goO">
+                                <rect key="frame" x="169" y="315" width="37" height="37"/>
+                                <color key="color" red="0.2784313725" green="0.6588235294" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Hpy-c7-r2g" firstAttribute="trailing" secondItem="XyA-ov-uz1" secondAttribute="trailing" id="S5x-PD-tnH"/>
+                            <constraint firstItem="XyA-ov-uz1" firstAttribute="leading" secondItem="Hpy-c7-r2g" secondAttribute="leading" id="Yyo-lL-zmW"/>
+                            <constraint firstItem="Hpy-c7-r2g" firstAttribute="bottom" secondItem="XyA-ov-uz1" secondAttribute="bottom" id="lhz-Zu-L6R"/>
+                            <constraint firstItem="XS4-m8-goO" firstAttribute="centerY" secondItem="yv7-wr-KGg" secondAttribute="centerY" id="p4I-65-5qA"/>
+                            <constraint firstItem="XyA-ov-uz1" firstAttribute="top" secondItem="Hpy-c7-r2g" secondAttribute="top" id="qZ7-jf-rfr"/>
+                            <constraint firstItem="XS4-m8-goO" firstAttribute="centerX" secondItem="yv7-wr-KGg" secondAttribute="centerX" id="vt4-8z-ndU"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Hpy-c7-r2g"/>
+                    </view>
+                    <connections>
+                        <outlet property="activityIndicatorView" destination="XS4-m8-goO" id="Igg-kG-pTA"/>
+                        <outlet property="displayImageView" destination="XyA-ov-uz1" id="eqN-R5-jLx"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3Dw-xi-UcU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="726" y="32"/>
+        </scene>
     </scenes>
 </document>

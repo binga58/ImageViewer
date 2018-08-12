@@ -21,8 +21,8 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     func configureCell(photo: Photo) {
         self.photo = photo
         displayImageView.image = #imageLiteral(resourceName: "placeholder")
-        ImageManager.shared.downloadImage(imageURL: photo.imageURL) {[weak self] (imageURL, image) in
-            if imageURL == self?.photo?.imageURL, let image = image {
+        ImageManager.shared.downloadImage(imageURL: photo.thumbImageURL) {[weak self] (imageURL, image) in
+            if imageURL == self?.photo?.thumbImageURL, let image = image {
                 DispatchQueue.main.async {
                     self?.displayImageView.image = image
                 }

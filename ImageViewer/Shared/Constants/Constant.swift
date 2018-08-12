@@ -15,4 +15,8 @@ struct Constant {
     static let three = "3"
     static let four = "4"
     
+    struct Storyboard {
+        static let main = "Main"
+    }
+    
 }
